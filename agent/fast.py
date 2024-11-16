@@ -16,9 +16,7 @@ async def analyze_image(image: UploadFile = File(...)):
         genai.configure(api_key=API_KEY)
 
         # Setup model with tools
-        model = genai.GenerativeModel(
-            "gemini-1.5-flash-latest", tools=[setup_schemas()]
-        )
+        model = genai.GenerativeModel("gemini-1.5-pro-latest", tools=[setup_schemas()])
 
         # Read and process the uploaded image
         contents = await image.read()
