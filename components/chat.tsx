@@ -10,10 +10,14 @@ import styles from "@/components/chat.module.css";
 
 const mockMessages = [
   { id: "0", role: "system", content: systemPrompt },
-  { id: "1", role: "assistant", content: "Hello, how can I help you?" },
+  {
+    id: "1",
+    role: "assistant",
+    content: "How can I help you about Tanaka-san's work?",
+  },
 ];
 
-export default function Chat() {
+export default function ChatPage() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     initialMessages: mockMessages as Message[],
   });
