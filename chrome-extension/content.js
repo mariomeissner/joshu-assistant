@@ -1,18 +1,22 @@
-const badgeHTML = `
-    <div class="ms-OverflowSet-item item-175" role="none">
-        <div class="s82IJ body-157">
-            <a href="https://askjoshu.com/api-todo" class="ask-joshu-badge">
-                Ask Joshu
-            </a>
-        </div>
-    </div>
-`;
-
 function injectBadge() {
     const messageActions = document.querySelectorAll('div[aria-label="Message actions"]');
+    const messageBodyElement = document.querySelector('div[aria-label="Message body"]');
+    const messageBodyText = messageBodyElement ? encodeURIComponent(messageBodyElement.textContent.trim()) : '';
+
     if (messageActions) {
         messageActions.forEach((element) => {
             if (!element.querySelector('.ask-joshu-badge')) {
+                // Update badge HTML with extracted text as parameter
+                const badgeHTML = `
+                    <div class="ms-OverflowSet-item item-175" role="none">
+                        <div class="s82IJ body-157">
+                            <a href="https://askjoshu.com/api-todo?text=${messageBodyText}" class="ask-joshu-badge">
+                                Ask Joshu
+                            </a>
+                        </div>
+                    </div>
+                `;
+
                 element.insertAdjacentHTML('afterbegin', badgeHTML);
             }
         });
