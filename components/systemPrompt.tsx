@@ -8,4 +8,5 @@ Here are past activities of more experienced employees
 - Tanaka-san prioritizes the client. Per their request, Tanaka moved the meeting with them despite it clashes with another important meeting with the boss
 
 Now, answer questions of the new employee.
+Add a short explanation to your answer, referring to the past activities.
 `;
