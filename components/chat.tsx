@@ -34,31 +34,28 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
       <div className="flex flex-row gap-4">
         <Link
           href="/"
-          className={`text-sm ${
-            pathname === "/"
-              ? "text-purple-800 font-semibold pointer-events-none"
-              : "text-purple-600 hover:text-purple-800 underline"
-          } mb-6`}
+          className={`text-sm ${pathname === "/"
+            ? "text-purple-800 font-semibold pointer-events-none"
+            : "text-purple-600 hover:text-purple-800 underline"
+            } mb-6`}
         >
           Test your own screenshots
         </Link>
         <Link
           href="/tanaka"
-          className={`text-sm ${
-            pathname === "/tanaka"
-              ? "text-purple-800 font-semibold pointer-events-none"
-              : "text-purple-600 hover:text-purple-800 underline"
-          } mb-6`}
+          className={`text-sm ${pathname === "/tanaka"
+            ? "text-purple-800 font-semibold pointer-events-none"
+            : "text-purple-600 hover:text-purple-800 underline"
+            } mb-6`}
         >
           Tanaka example
         </Link>
         <Link
           href="/reference"
-          className={`text-sm ${
-            pathname === "/reference"
-              ? "text-purple-800 font-semibold pointer-events-none"
-              : "text-purple-600 hover:text-purple-800 underline"
-          } mb-6`}
+          className={`text-sm ${pathname === "/reference"
+            ? "text-purple-800 font-semibold pointer-events-none"
+            : "text-purple-600 hover:text-purple-800 underline"
+            } mb-6`}
         >
           Tanaka data reference
         </Link>
@@ -73,14 +70,13 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
                 className={`flex items-start space-x-4 ${styles.fadeIn}`}
               >
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${
-                    message.role === "user"
-                      ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
-                      : "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-                  } shadow-md`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${message.role === "user"
+                    ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
+                    : "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+                    } shadow-md`}
                   aria-label={message.role === "user" ? "User" : "AI"}
                 >
-                  {message.role === "user" ? "U" : "AI"}
+                  {message.role === "user" ? "U" : "ジョ"}
                 </div>
                 <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
                   <p className="text-base text-gray-900 whitespace-pre-wrap">
