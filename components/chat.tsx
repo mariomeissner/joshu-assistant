@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { systemPrompt } from "./systemPrompt";
+import { useEffect, useRef } from "react";
+import styles from "./chat.module.css";
 
 const mockMessages = [
   { id: "0", role: "system", content: systemPrompt },
@@ -15,13 +17,20 @@ export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     initialMessages: mockMessages as Message[],
   });
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      (messagesEndRef.current as HTMLDivElement).scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="fixed inset-x-0 bottom-0 p-6">
       <Card className="w-full max-w-2xl mx-auto border border-gray-200 rounded-lg shadow-lg bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
         <CardContent className="p-6 space-y-6">
           {messages.filter((message) => message.role != "system").map((message) => (
-            <div key={message.id} className="flex items-start space-x-4">
+            <div key={message.id} className={`flex items-start space-x-4 ${styles.fadeIn}`}>
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${message.role === "user"
                   ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
@@ -36,6 +45,7 @@ export default function Chat() {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </CardContent>
         <CardFooter className="p-4 border-t border-gray-200 bg-gradient-to-r from-purple-100 to-blue-100">
           <form onSubmit={handleSubmit} className="flex w-full items-center space-x-3">
