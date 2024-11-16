@@ -7,6 +7,11 @@ import google.generativeai as genai
 app = FastAPI()
 
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
 @app.post("/analyze-image/")
 async def analyze_image(image: UploadFile = File(...)):
     try:
