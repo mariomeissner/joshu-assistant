@@ -4,15 +4,11 @@ import { Message, useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { systemPrompt } from "./systemPrompt";
 
 const mockMessages = [
-  { id: "1", role: "user", content: "Hello! How are you?" },
-  {
-    id: "2",
-    role: "assistant",
-    content:
-      "Hello! I'm doing well, thank you for asking. How can I assist you today?",
-  },
+  { id: "0", role: "system", content: systemPrompt },
+  { id: "1", role: "assistant", content: "Hello, how can I help you?" },
 ];
 
 export default function Chat() {
@@ -24,14 +20,13 @@ export default function Chat() {
     <div className="fixed inset-x-0 bottom-0 p-4">
       <Card className="w-full max-w-2xl mx-auto border-gray-200">
         <CardContent className="p-4 space-y-4">
-          {messages.map((message) => (
+          {messages.filter((message) => message.role != "system").map((message) => (
             <div key={message.id} className="flex items-start space-x-4">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
-                  message.role === "user"
-                    ? "bg-gray-200 text-gray-600"
-                    : "bg-gray-600 text-gray-200"
-                }`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${message.role === "user"
+                  ? "bg-gray-200 text-gray-600"
+                  : "bg-gray-600 text-gray-200"
+                  }`}
                 aria-label={message.role === "user" ? "User" : "AI"}
               >
                 {message.role === "user" ? "U" : "AI"}
