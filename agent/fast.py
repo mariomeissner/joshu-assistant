@@ -3,7 +3,6 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import io
 import google.generativeai as genai
-from analyze_screenshots import setup_schemas
 
 app = FastAPI()
 
@@ -37,3 +36,57 @@ async def analyze_image(image: UploadFile = File(...)):
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+def setup_schemas():
+    # Define program schema
+    programs = genai.protos.Schema(
+        type=genai.protos.Type.OBJECT,
+        properties={
+            "program_name": genai.protos.Schema(type=genai.protos.Type.STRING),
+            "program_description": genai.protos.Schema(
+                type=genai.protos.Type.STRING, description="Description of the program"
+            ),
+            "is_active": genai.protos.Schema(
+                type=genai.protos.Type.BOOLEAN,
+                description="Whether the program is currently active",
+            ),
+            "program_type": genai.protos.Schema(
+                type=genai.protos.Type.STRING,
+                enum=["browser", "email", "chat", "calendar", "other"],
+                description="Type of the program",
+            ),
+            "program_info": genai.protos.Schema(
+                type=genai.protos.Type.STRING,
+                description="valid json information about the program",
+            ),
+        },
+        required=["program_name", "program_description", "program_type"],
+    )
+
+    # Define screenshot data schema
+    screenshot_data_schema = genai.protos.Schema(
+        type=genai.protos.Type.OBJECT,
+        properties={
+            "general_scene_description": genai.protos.Schema(
+                type=genai.protos.Type.STRING,
+                description="Description of screenshot and user activity in the scene",
+            ),
+            "programs_in_scene": genai.protos.Schema(
+                type=genai.protos.Type.ARRAY,
+                items=programs,
+                description="An array of all programs running in the screenshot",
+            ),
+            "mouse_action": genai.protos.Schema(
+                type=genai.protos.Type.STRING,
+                description="what the user is doing with the mouse",
+            ),
+        },
+        required=["general_scene_description", "programs_in_scene", "mouse_action"],
+    )
+
+    return genai.protos.FunctionDeclaration(
+        name="screenshot_data",
+        description="Get data about the screenshot and what the user is doing with the mouse",
+        parameters=screenshot_data_schema,
+    )
