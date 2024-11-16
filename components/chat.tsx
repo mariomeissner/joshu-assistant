@@ -4,22 +4,17 @@ import { Message, useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { systemPrompt } from "./systemPrompt";
 import { useEffect, useRef } from "react";
 import styles from "@/components/chat.module.css";
+import Link from "next/link";
 
-const mockMessages = [
-  { id: "0", role: "system", content: systemPrompt },
-  {
-    id: "1",
-    role: "assistant",
-    content: "How can I help you about Tanaka-san's work?",
-  },
-];
+interface ChatPageProps {
+  initialMessages: Message[];
+}
 
-export default function ChatPage() {
+export default function ChatPage({ initialMessages }: ChatPageProps) {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
-    initialMessages: mockMessages as Message[],
+    initialMessages,
   });
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,12 +29,26 @@ export default function ChatPage() {
   return (
     <div className="fixed inset-0 flex flex-col items-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
       <h1 className="text-4xl font-bold mb-2 text-purple-800">Joshu</h1>
-      <a 
-        href="/reference"
-        className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
-      >
-        View Reference Data
-      </a>
+      <div className="flex flex-row gap-4">
+        <Link
+          href="/"
+          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+        >
+          Test your own screenshots
+        </Link>
+        <Link
+          href="/reference"
+          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+        >
+          Tanaka Data
+        </Link>
+        <Link
+          href="/tanaka"
+          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+        >
+          Tanaka example
+        </Link>
+      </div>
       <div className="w-full max-w-2xl flex-1 flex flex-col h-full">
         <CardContent className="p-6 space-y-6 flex-1 overflow-y-auto max-h-full">
           {messages
