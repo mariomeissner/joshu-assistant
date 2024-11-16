@@ -33,7 +33,13 @@ export default function ChatPage() {
 
   return (
     <div className="fixed inset-0 flex flex-col items-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
-      <h1 className="text-4xl font-bold mb-6 text-purple-800">Joshu</h1>
+      <h1 className="text-4xl font-bold mb-2 text-purple-800">Joshu</h1>
+      <a 
+        href="/reference"
+        className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+      >
+        View Reference Data
+      </a>
       <div className="w-full max-w-2xl flex-1 flex flex-col h-full">
         <CardContent className="p-6 space-y-6 flex-1 overflow-y-auto max-h-full">
           {messages
