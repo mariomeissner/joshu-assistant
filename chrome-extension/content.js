@@ -1,33 +1,11 @@
-// content.js
 const badgeHTML = `
-    <style>
-        .ask-joshu-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            background: linear-gradient(to right, #ec4899, #a855f7);
-            color: white;
-            font-weight: bold;
-            font-size: 1.25rem;
-            font-family: Arial, Helvetica, sans-serif;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-decoration: none;
-            transition: background 0.3s ease-in-out;
-        }
-
-        .ask-joshu-badge:hover {
-            background: linear-gradient(to right, #db2777, #9333ea);
-        }
-
-        .ask-joshu-badge:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.3);
-        }
-    </style>
-    <a href="https://askjoshu.com/api-todo" class="ask-joshu-badge">
-        Ask Joshu
-    </a>
+    <div class="ms-OverflowSet-item item-175" role="none">
+        <div class="s82IJ body-157">
+            <a href="https://askjoshu.com/api-todo" class="ask-joshu-badge">
+                Ask Joshu
+            </a>
+        </div>
+    </div>
 `;
 
 function injectBadge() {
@@ -35,7 +13,7 @@ function injectBadge() {
     if (messageActions) {
         messageActions.forEach((element) => {
             if (!element.querySelector('.ask-joshu-badge')) {
-                element.insertAdjacentHTML('beforeend', badgeHTML);
+                element.insertAdjacentHTML('afterbegin', badgeHTML);
             }
         });
     }
@@ -54,3 +32,32 @@ const observer = new MutationObserver((mutations) => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
+
+// Add CSS styling through JavaScript
+const style = document.createElement('style');
+style.textContent = `
+    .ask-joshu-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 1.4rem;
+        border-radius: 9999px;
+        background: linear-gradient(to right, #ec4899, #a855f7);
+        color: white;
+        font-weight: bold;
+        font-size: 1.0rem;
+        font-family: Arial, Helvetica, sans-serif;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .ask-joshu-badge:hover {
+        background: linear-gradient(to right, #db2777, #9333ea);
+    }
+
+    .ask-joshu-badge:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.3);
+    }
+`;
+document.head.appendChild(style);
