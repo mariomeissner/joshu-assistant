@@ -17,37 +17,37 @@ export default function Chat() {
   });
 
   return (
-    <div className="fixed inset-x-0 bottom-0 p-4">
-      <Card className="w-full max-w-2xl mx-auto border-gray-200">
-        <CardContent className="p-4 space-y-4">
+    <div className="fixed inset-x-0 bottom-0 p-6">
+      <Card className="w-full max-w-2xl mx-auto border border-gray-200 rounded-lg shadow-lg bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
+        <CardContent className="p-6 space-y-6">
           {messages.filter((message) => message.role != "system").map((message) => (
             <div key={message.id} className="flex items-start space-x-4">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${message.role === "user"
-                  ? "bg-gray-200 text-gray-600"
-                  : "bg-gray-600 text-gray-200"
-                  }`}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${message.role === "user"
+                  ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
+                  : "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+                  } shadow-md`}
                 aria-label={message.role === "user" ? "User" : "AI"}
               >
                 {message.role === "user" ? "U" : "AI"}
               </div>
-              <div className="flex-1 overflow-hidden">
-                <p className="text-sm text-gray-800">{message.content}</p>
+              <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                <p className="text-base text-gray-900">{message.content}</p>
               </div>
             </div>
           ))}
         </CardContent>
-        <CardFooter>
-          <form onSubmit={handleSubmit} className="flex w-full space-x-2">
+        <CardFooter className="p-4 border-t border-gray-200 bg-gradient-to-r from-purple-100 to-blue-100">
+          <form onSubmit={handleSubmit} className="flex w-full items-center space-x-3">
             <Input
               value={input}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="flex-1 border-gray-300 focus:border-gray-500 focus:ring-gray-500"
+              className="flex-1 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-full px-4 py-2 shadow-sm bg-gradient-to-r from-white to-blue-50"
             />
             <Button
               type="submit"
-              className="bg-gray-800 text-white hover:bg-gray-700"
+              className="bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:bg-gradient-to-r hover:from-pink-600 hover:to-purple-600 focus:ring focus:ring-pink-300 focus:ring-opacity-50 px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
             >
               Send
             </Button>
