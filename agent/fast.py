@@ -3,7 +3,7 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import io
 import google.generativeai as genai
-from agent.analyze_screenshots import setup_schemas
+from analyze_screenshots import setup_schemas
 
 app = FastAPI()
 
