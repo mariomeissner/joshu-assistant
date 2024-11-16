@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useRef } from "react";
 import styles from "@/components/chat.module.css";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ChatPageProps {
   initialMessages: Message[];
@@ -17,6 +18,7 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
     initialMessages,
   });
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -32,21 +34,33 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
       <div className="flex flex-row gap-4">
         <Link
           href="/"
-          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+          className={`text-sm ${
+            pathname === "/"
+              ? "text-purple-800 font-semibold pointer-events-none"
+              : "text-purple-600 hover:text-purple-800 underline"
+          } mb-6`}
         >
           Test your own screenshots
         </Link>
         <Link
-          href="/reference"
-          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
-        >
-          Tanaka Data
-        </Link>
-        <Link
           href="/tanaka"
-          className="text-sm text-purple-600 hover:text-purple-800 underline mb-6"
+          className={`text-sm ${
+            pathname === "/tanaka"
+              ? "text-purple-800 font-semibold pointer-events-none"
+              : "text-purple-600 hover:text-purple-800 underline"
+          } mb-6`}
         >
           Tanaka example
+        </Link>
+        <Link
+          href="/reference"
+          className={`text-sm ${
+            pathname === "/reference"
+              ? "text-purple-800 font-semibold pointer-events-none"
+              : "text-purple-600 hover:text-purple-800 underline"
+          } mb-6`}
+        >
+          Tanaka data reference
         </Link>
       </div>
       <div className="w-full max-w-2xl flex-1 flex flex-col h-full">
@@ -69,7 +83,9 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
                   {message.role === "user" ? "U" : "AI"}
                 </div>
                 <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
-                  <p className="text-base text-gray-900 whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-base text-gray-900 whitespace-pre-wrap">
+                    {message.content}
+                  </p>
                 </div>
               </div>
             ))}
