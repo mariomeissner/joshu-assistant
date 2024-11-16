@@ -56,7 +56,7 @@ export default function Chat() {
             ))}
           <div ref={messagesEndRef} />
         </CardContent>
-        <CardFooter className="p-4 border-t border-gray-200 bg-gradient-to-r from-purple-100 to-blue-100 sticky bottom-0">
+        <CardFooter className="p-4 border-gray-200 sticky bottom-0 bg-transparent">
           <form
             onSubmit={handleSubmit}
             className="flex w-full items-center space-x-3"
@@ -65,7 +65,7 @@ export default function Chat() {
               value={input}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="flex-1 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-full px-4 py-2 shadow-sm bg-gradient-to-r from-white to-blue-50"
+              className="flex-1 border-0 focus:ring-0 rounded-full px-4 py-2 shadow-sm bg-white/80"
             />
             <Button
               type="submit"
