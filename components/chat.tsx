@@ -69,7 +69,7 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
                   {message.role === "user" ? "U" : "AI"}
                 </div>
                 <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
-                  <p className="text-base text-gray-900">{message.content}</p>
+                  <p className="text-base text-gray-900 whitespace-pre-wrap">{message.content}</p>
                 </div>
               </div>
             ))}
