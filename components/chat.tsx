@@ -26,8 +26,8 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="fixed inset-x-0 bottom-0 p-6">
-      <Card className="w-full max-w-2xl mx-auto border border-gray-200 rounded-lg shadow-lg bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
+    <div className="fixed inset-0 flex items-end justify-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
+      <div className="w-full max-w-2xl">
         <CardContent className="p-6 space-y-6">
           {messages.filter((message) => message.role != "system").map((message) => (
             <div key={message.id} className={`flex items-start space-x-4 ${styles.fadeIn}`}>
@@ -63,7 +63,7 @@ export default function Chat() {
             </Button>
           </form>
         </CardFooter>
-      </Card>
+      </div>
     </div>
   );
 }
