@@ -15,4 +15,4 @@ COPY agent/ .
 EXPOSE $PORT
 
 # Run the application
-CMD uvicorn agent.fast:app --host :: --port $PORT
+CMD uvicorn fast:app --host :: --port $PORT
