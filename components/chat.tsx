@@ -30,8 +30,8 @@ export default function Chat() {
   return (
     <div className="fixed inset-0 flex flex-col items-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
       <h1 className="text-4xl font-bold mb-6 text-purple-800">Joshu</h1>
-      <div className="w-full max-w-2xl flex-1 flex flex-col">
-        <CardContent className="p-6 space-y-6 flex-1 overflow-y-auto">
+      <div className="w-full max-w-2xl flex-1 flex flex-col h-full">
+        <CardContent className="p-6 space-y-6 flex-1 overflow-y-auto max-h-full">
           {messages
             .filter((message) => message.role != "system")
             .map((message) => (
