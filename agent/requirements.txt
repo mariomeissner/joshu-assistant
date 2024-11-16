@@ -2,3 +2,6 @@ google-generativeai
 python-dotenv
 pillow
 ipykernel
+fastapi
+uvicorn
+python-multipart
