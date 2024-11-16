@@ -2,11 +2,11 @@
 
 import { Message, useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { systemPrompt } from "./systemPrompt";
 import { useEffect, useRef } from "react";
-import styles from "./chat.module.css";
+import styles from "@/components/chat.module.css";
 
 const mockMessages = [
   { id: "0", role: "system", content: systemPrompt },
@@ -21,7 +21,9 @@ export default function Chat() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      (messagesEndRef.current as HTMLDivElement).scrollIntoView({ behavior: "smooth" });
+      (messagesEndRef.current as HTMLDivElement).scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }, [messages]);
 
@@ -29,26 +31,35 @@ export default function Chat() {
     <div className="fixed inset-0 flex items-end justify-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
       <div className="w-full max-w-2xl">
         <CardContent className="p-6 space-y-6">
-          {messages.filter((message) => message.role != "system").map((message) => (
-            <div key={message.id} className={`flex items-start space-x-4 ${styles.fadeIn}`}>
+          {messages
+            .filter((message) => message.role != "system")
+            .map((message) => (
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${message.role === "user"
-                  ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
-                  : "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-                  } shadow-md`}
-                aria-label={message.role === "user" ? "User" : "AI"}
+                key={message.id}
+                className={`flex items-start space-x-4 ${styles.fadeIn}`}
               >
-                {message.role === "user" ? "U" : "AI"}
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${
+                    message.role === "user"
+                      ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white"
+                      : "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+                  } shadow-md`}
+                  aria-label={message.role === "user" ? "User" : "AI"}
+                >
+                  {message.role === "user" ? "U" : "AI"}
+                </div>
+                <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                  <p className="text-base text-gray-900">{message.content}</p>
+                </div>
               </div>
-              <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
-                <p className="text-base text-gray-900">{message.content}</p>
-              </div>
-            </div>
-          ))}
+            ))}
           <div ref={messagesEndRef} />
         </CardContent>
         <CardFooter className="p-4 border-t border-gray-200 bg-gradient-to-r from-purple-100 to-blue-100">
-          <form onSubmit={handleSubmit} className="flex w-full items-center space-x-3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex w-full items-center space-x-3"
+          >
             <Input
               value={input}
               onChange={handleInputChange}
