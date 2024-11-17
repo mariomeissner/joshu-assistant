@@ -16,7 +16,7 @@ function injectBadge() {
         const badgeHTML = `
                     <div class="ms-OverflowSet-item item-175" role="none">
                         <div class="s82IJ body-157">
-                            <a href="https://www.askjoshu.com/ask?q=lEjRfi2U4o" class="ask-joshu-badge">
+                            <a href="https://www.askjoshu.com/ask?q=lEjRfi2U4o" class="ask-joshu-badge" target="_blank">
                                 Ask Joshu
                             </a>
                         </div>
