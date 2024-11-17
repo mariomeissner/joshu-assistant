@@ -103,16 +103,16 @@ def get_prompt_for_summarizer(action_history):
 
     Extract the reasoning behind each action and decision in bullet points. Think step by step and write it in the #Thinking section. Finally, comprehend key important lessons from this interaction in the #Lesson section.
 
-    input: {action_history_example}
-
-    output: - Tanaka-san receives an email from a client to reschedule a meeting with the boss.
-    - Boss is very important and we can\'t just simply change his time.
-    - Tanaka-san knows that the client is very important and we need to prioritize the client.
-    - Tanaka-san prioritizes the client. Per their request, Tanaka moved the meeting with them despite it clashes with another important meeting with the boss
-
-
     input: {action_history}
     output:"""
+
+    # removing the example output, as it seems to be mixing this with the actual input
+    # input: {action_history_example}
+
+    # output: - Tanaka-san receives an email from a client to reschedule a meeting with the boss.
+    # - Boss is very important and we can\'t just simply change his time.
+    # - Tanaka-san knows that the client is very important and we need to prioritize the client.
+    # - Tanaka-san prioritizes the client. Per their request, Tanaka moved the meeting with them despite it clashes with another important meeting with the boss
 
     return prompt
 
