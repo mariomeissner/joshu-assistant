@@ -16,7 +16,7 @@ const initialMessages = [
     id: "2",
     role: "user",
     content:
-      "Hi, \nI’m checking that everything is OK for the next shipment.\nI hope there won’t be any problems with box sizes.",
+      'Hi, \nI\'ve received the following email. What should I do? \n\n"I’m checking that everything is OK for the next shipment.\nI hope there won’t be any problems with box sizes."',
   },
 ] as Message[];
 
@@ -30,8 +30,7 @@ export default function TanakaPage() {
         {
           id: "3",
           role: "assistant",
-          content:
-            "Based on Tanaka-san experience, we need to use boxes of non-standard size.",
+          content: "We need to use boxes of smaller sizes.",
         },
       ]);
     }, 1500);
