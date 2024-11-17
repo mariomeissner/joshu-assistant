@@ -38,7 +38,7 @@ export default function ChatPage({
         target: { value: mockInput },
       } as React.ChangeEvent<HTMLTextAreaElement>);
     }
-  }, [mockInput, handleInputChange]);
+  }, []);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
