@@ -4,16 +4,56 @@ import { Message, useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "@/components/chat.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { systemPrompt } from "@/components/systemPrompt";
 
 interface ChatPageProps {
-  initialMessages: Message[];
+  isScreenshotDemo?: boolean;
 }
 
-export default function ChatPage({ initialMessages }: ChatPageProps) {
+export default function ChatPage({ isScreenshotDemo = false }: ChatPageProps) {
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [knowledgeBase, setKnowledgeBase] = useState<string>("");
+
+  let initialMessages: Message[] = [];
+  if (isScreenshotDemo) {
+    initialMessages = [
+      {
+        id: "0",
+        role: "system",
+        content: `You are an assistant that helps onboarding a new employee. You know everything about the past employee. You have access to their activities and the files. Help the new employe take appropriate actions based on the actions of past employees. Keep your answer very concise within one paragraph.
+
+Here are past activities of more experienced employees
+${knowledgeBase}
+
+Now, answer questions of the new employee.
+Add a short explanation to your answer, referring to the past activities.`,
+      },
+      {
+        id: "1",
+        role: "assistant",
+        content: "Ask me anything about your uploaded screenshots.",
+      },
+    ];
+  } else {
+    initialMessages = [
+      {
+        id: "0",
+        role: "system",
+        content: systemPrompt,
+      },
+      {
+        id: "1",
+        role: "assistant",
+        content: "How can I help you about Tanaka-san's work?",
+      },
+    ];
+  }
+
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     initialMessages,
   });
@@ -44,6 +84,39 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
       });
     }
   }, [messages]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+
+    setIsAnalyzing(true);
+    const formData = new FormData();
+    Array.from(e.target.files).forEach((file) => {
+      formData.append("images", file);
+    });
+
+    try {
+      const response = await fetch(
+        "https://screenshot-thing-production.up.railway.app/analyze-image",
+        {
+          method: "POST",
+          body: formData,
+          credentials: "omit",
+          headers: {
+            Accept: "application/json",
+          },
+        },
+      );
+      const data = await response.json();
+      if (data.status === "success") {
+        setKnowledgeBase(data.summary);
+      }
+      setIsAnalyzing(false);
+    } catch (error) {
+      console.error("Error analyzing images:", error);
+    }
+  };
+
+  const chatEnabled = !isScreenshotDemo || knowledgeBase;
 
   return (
     <div className="fixed inset-0 flex flex-col items-center p-6 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
@@ -120,6 +193,7 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
                 handleInputChange(e);
                 handleTextareaResize(e);
               }}
+              disabled={!chatEnabled}
               onKeyDown={handleKeyPress}
               placeholder="Type your message..."
               className="flex-1 border-0 focus:ring-0 rounded-xl px-4 py-2 shadow-sm bg-white/80 min-h-[40px] max-h-[200px] resize-none overflow-y-auto"
@@ -133,6 +207,30 @@ export default function ChatPage({ initialMessages }: ChatPageProps) {
           </form>
         </CardFooter>
       </div>
+      {isScreenshotDemo && (
+        <div className="mb-4">
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+            id="screenshot-upload"
+          />
+          <label
+            htmlFor="screenshot-upload"
+            className="cursor-pointer bg-white/80 hover:bg-white px-4 py-2 rounded-full shadow-sm text-purple-600"
+          >
+            Upload Screenshots
+          </label>
+          {isAnalyzing && (
+            <div className="mt-2 flex items-center gap-2 text-purple-600">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Analyzing screenshots...
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
