@@ -13,53 +13,36 @@ import { systemPrompt } from "@/components/systemPrompt";
 
 interface ChatPageProps {
   isScreenshotDemo?: boolean;
+  mockMessages?: Message[];
 }
 
-export default function ChatPage({ isScreenshotDemo = false }: ChatPageProps) {
+export default function ChatPage({
+  isScreenshotDemo = false,
+  mockMessages,
+}: ChatPageProps) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [knowledgeBase, setKnowledgeBase] = useState<string>("");
 
   let initialMessages: Message[] = [];
-  if (isScreenshotDemo) {
-    initialMessages = [
-      {
-        id: "0",
-        role: "system",
-        content: `You are an assistant that helps onboarding a new employee. You know everything about the past employee. You have access to their activities and the files. Help the new employe take appropriate actions based on the actions of past employees. Keep your answer very concise within one paragraph.
-
-Here are past activities of more experienced employees
-${knowledgeBase}
-
-Now, answer questions of the new employee.
-Add a short explanation to your answer, referring to the past activities.`,
-      },
-      {
-        id: "1",
-        role: "assistant",
-        content: "Ask me anything about your uploaded screenshots.",
-      },
-    ];
+  if (mockMessages) {
+    initialMessages = mockMessages;
   } else {
-    initialMessages = [
-      {
-        id: "0",
-        role: "system",
-        content: systemPrompt,
-      },
-      {
-        id: "1",
-        role: "assistant",
-        content: "How can I help you about your work?",
-      },
-    ];
+    initialMessages = getInitialMessages(isScreenshotDemo, knowledgeBase);
   }
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    initialMessages,
-  });
+  const { messages, input, handleInputChange, handleSubmit, setMessages } =
+    useChat({
+      initialMessages,
+    });
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (mockMessages && mockMessages?.length > 0) {
+      setMessages(mockMessages);
+    }
+  }, [mockMessages, setMessages]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -104,7 +87,7 @@ Add a short explanation to your answer, referring to the past activities.`,
           headers: {
             Accept: "application/json",
           },
-        },
+        }
       );
       const data = await response.json();
       if (data.status === "success") {
@@ -234,3 +217,44 @@ Add a short explanation to your answer, referring to the past activities.`,
     </div>
   );
 }
+
+const getInitialMessages = (
+  isScreenshotDemo: boolean,
+  knowledgeBase: string
+) => {
+  let initialMessages: Message[] = [];
+  if (isScreenshotDemo) {
+    initialMessages = [
+      {
+        id: "0",
+        role: "system",
+        content: `You are an assistant that helps onboarding a new employee. You know everything about the past employee. You have access to their activities and the files. Help the new employe take appropriate actions based on the actions of past employees. Keep your answer very concise within one paragraph.
+
+Here are past activities of more experienced employees
+${knowledgeBase}
+
+Now, answer questions of the new employee.
+Add a short explanation to your answer, referring to the past activities.`,
+      },
+      {
+        id: "1",
+        role: "assistant",
+        content: "Ask me anything about your uploaded screenshots.",
+      },
+    ];
+  } else {
+    initialMessages = [
+      {
+        id: "0",
+        role: "system",
+        content: systemPrompt,
+      },
+      {
+        id: "1",
+        role: "assistant",
+        content: "How can I help you about your work?",
+      },
+    ];
+  }
+  return initialMessages;
+};
