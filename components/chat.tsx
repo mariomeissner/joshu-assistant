@@ -75,7 +75,7 @@ export default function ChatPage({
 
     try {
       const response = await fetch(
-        "https://screenshot-thing-production.up.railway.app/analyze-image",
+        "https://screenshot-thing-production.up.railway.app/analyze-image/",
         {
           method: "POST",
           body: formData,
