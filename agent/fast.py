@@ -7,7 +7,7 @@ from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import the helper functions
-from .analyze_screenshots import setup_schemas, get_prompt_for_summarizer, generate
+from analyze_screenshots import setup_schemas, get_prompt_for_summarizer, generate
 
 app = FastAPI()
 
