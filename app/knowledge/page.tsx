@@ -38,7 +38,7 @@ export default function ReferencePage() {
         </div>
 
         <h1 className="text-3xl font-bold mb-6 text-purple-800">
-          Reference Data
+          Joshu&apos;s Knowledge
         </h1>
 
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
@@ -53,7 +53,7 @@ export default function ReferencePage() {
 
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-600 mb-4">
-            JSON data extracted from the screenshots
+            Extracted Data
           </h2>
           <pre className="text-sm text-gray-600 overflow-x-scroll">
             {JSON.stringify(data, null, 2)}
