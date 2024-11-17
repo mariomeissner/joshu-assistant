@@ -1,3 +1,4 @@
+import asyncio 
 import os
 from fastapi import FastAPI, UploadFile, File
 from PIL import Image
@@ -36,10 +37,8 @@ async def analyze_image(images: list[UploadFile] = File(...)):
 
         # Setup model with tools
         model = genai.GenerativeModel("gemini-1.5-pro-latest", tools=[setup_schemas()])
-
         # Process each image and collect results
-        action_results = []
-        for image in images:
+        async def process_single_image(image):
             contents = await image.read()
             pil_image = Image.open(io.BytesIO(contents))
 
@@ -51,11 +50,15 @@ async def analyze_image(images: list[UploadFile] = File(...)):
             )
 
             analysis = str(result.candidates[0].content.parts[0].function_call)
-            action_results.append({"filename": image.filename, "analysis": analysis})
+            return {"filename": image.filename, "analysis": analysis}
+        # Process all images concurrently
+        action_results = await asyncio.gather(
+            *[process_single_image(image) for image in images]
+        )
 
         # Create action history format
         action_history = "# Action History\n\n"
-        for i, result in enumerate(action_results):
+        for i, result in enumerate(sorted(action_results, key=lambda x: x['filename'])):
             action_history += f"## Action {i+1}\n{result['analysis']}\n\n"
 
         # Generate summary using the prompt
