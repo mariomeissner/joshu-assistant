@@ -13,36 +13,32 @@ import { systemPrompt } from "@/components/systemPrompt";
 
 interface ChatPageProps {
   isScreenshotDemo?: boolean;
-  mockMessages?: Message[];
+  mockInput?: string;
 }
 
 export default function ChatPage({
   isScreenshotDemo = false,
-  mockMessages,
+  mockInput,
 }: ChatPageProps) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [knowledgeBase, setKnowledgeBase] = useState<string>("");
 
-  let initialMessages: Message[] = [];
-  if (mockMessages) {
-    initialMessages = mockMessages;
-  } else {
-    initialMessages = getInitialMessages(isScreenshotDemo, knowledgeBase);
-  }
+  const initialMessages = getInitialMessages(isScreenshotDemo, knowledgeBase);
 
-  const { messages, input, handleInputChange, handleSubmit, setMessages } =
-    useChat({
-      initialMessages,
-    });
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    initialMessages,
+  });
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    if (mockMessages && mockMessages?.length > 0) {
-      setMessages(mockMessages);
+    if (mockInput) {
+      handleInputChange({
+        target: { value: mockInput },
+      } as React.ChangeEvent<HTMLTextAreaElement>);
     }
-  }, [mockMessages, setMessages]);
+  }, [mockInput, handleInputChange]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
