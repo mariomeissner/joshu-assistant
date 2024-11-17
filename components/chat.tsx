@@ -49,7 +49,7 @@ Add a short explanation to your answer, referring to the past activities.`,
       {
         id: "1",
         role: "assistant",
-        content: "How can I help you about Tanaka-san's work?",
+        content: "How can I help you about your work?",
       },
     ];
   }
