@@ -44,7 +44,16 @@ export default function ChatPage({
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+      }
     }
+  };
+
+  const handleTextareaResize = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
   useEffect(() => {
@@ -159,11 +168,14 @@ export default function ChatPage({
             <Textarea
               ref={textareaRef}
               value={input}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                handleInputChange(e);
+                handleTextareaResize(e);
+              }}
               disabled={!chatEnabled}
               onKeyDown={handleKeyPress}
               placeholder="Type your message..."
-              className="flex-1 border-0 focus:ring-0 rounded-xl px-4 py-2 shadow-sm bg-white/80 resize-none overflow-y-auto"
+              className="flex-1 border-0 focus:ring-0 rounded-xl px-4 py-2 shadow-sm bg-white/80 min-h-[40px] max-h-[200px] resize-none overflow-y-auto"
             />
             <Button
               type="submit"
