@@ -4,11 +4,24 @@ from PIL import Image
 import io
 import google.generativeai as genai
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import the helper functions
 from .analyze_screenshots import setup_schemas, get_prompt_for_summarizer, generate
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://askjoshu.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -38,12 +51,9 @@ async def analyze_image(images: list[UploadFile] = File(...)):
                     pil_image,
                 ]
             )
-            
+
             analysis = str(result.candidates[0].content.parts[0].function_call)
-            action_results.append({
-                "filename": image.filename,
-                "analysis": analysis
-            })
+            action_results.append({"filename": image.filename, "analysis": analysis})
 
         # Create action history format
         action_history = "# Action History\n\n"
