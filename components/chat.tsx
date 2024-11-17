@@ -130,27 +130,27 @@ Add a short explanation to your answer, referring to the past activities.`,
               : "text-purple-600 hover:text-purple-800 underline"
           } mb-6`}
         >
-          Test your own screenshots
+          New employee onboarding
         </Link>
         <Link
-          href="/tanaka"
+          href="/screenshots"
           className={`text-sm ${
-            pathname === "/tanaka"
+            pathname === "/screenshots"
               ? "text-purple-800 font-semibold pointer-events-none"
               : "text-purple-600 hover:text-purple-800 underline"
           } mb-6`}
         >
-          Tanaka example
+          Screenshot demo
         </Link>
         <Link
-          href="/reference"
+          href="/knowledge"
           className={`text-sm ${
-            pathname === "/reference"
+            pathname === "/knowledge"
               ? "text-purple-800 font-semibold pointer-events-none"
               : "text-purple-600 hover:text-purple-800 underline"
           } mb-6`}
         >
-          Tanaka data reference
+          Joshu knowledge base
         </Link>
       </div>
       <div className="w-full max-w-2xl flex-1 flex flex-col h-full">
