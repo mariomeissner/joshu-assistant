@@ -97,7 +97,7 @@ action_history_example = """# Action History\\n\\n## Action 1\\nname: \"screensh
 
 
 def get_prompt_for_summarizer(action_history):
-    prompt = f"""An employee receives an email from a client requesting to change the schedule. The employee goes through a series of actions to complete that task. `# Action History` holds the list of activities for executing this task. Some information in the activity list is not obvious to the newcomers. 
+    prompt = f"""You will process a series of employee actions extracted from screenshots. `# Action History` holds the list of activities for executing this task. Some information in the activity list is not obvious to the newcomers. 
 
     Your task is to comprehend each activity and infer the abstract overview concept, capturing what each task is about, and why each task is performed. Find a series of actions of what has been done. Then, infer the non-obvious in-depth as to WHY each action is taken.  
 
